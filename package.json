@@ -1,0 +1,31 @@
+{
+  "name": "logicboxes-mcp",
+  "version": "0.1.0",
+  "description": "MCP server and API client for the LogicBoxes domain registration and DNS hosting platform",
+  "type": "module",
+  "main": "dist/server/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server/index.js",
+    "dev": "tsx src/server/index.ts",
+    "backup:dns": "tsx scripts/backup-dns.ts",
+    "test:auth": "tsx scripts/test-auth.ts",
+    "test:customers": "tsx scripts/test-customers.ts",
+    "test:domains": "tsx scripts/test-domains.ts",
+    "test:dns": "tsx scripts/test-dns.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "dotenv": "^16.4.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT"
+}

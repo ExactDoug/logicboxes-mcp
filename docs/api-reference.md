@@ -211,3 +211,21 @@ Key fields typically returned:
 - `city`, `state`, `country` — location
 - `status` — Active, Suspended, etc.
 - `totalreceipts` — billing total
+
+---
+
+## curl Reference
+
+Working curl example for DNS record search:
+
+```bash
+curl -v \
+    -X GET \
+    -H "User-Agent: HTTPBot/2026.0.1" \
+    "https://httpapi.com/api/dns/manage/search-records.json?auth-userid=USERID&api-key=APIKEY&domain-name=example.com&type=A&no-of-records=10&page-no=1"
+```
+
+**Notes:**
+- Replace `USERID` and `APIKEY` with actual credentials
+- The `type` parameter is **required** — omitting it causes HTTP 500
+- Valid record types: `A`, `AAAA`, `CNAME`, `MX`, `TXT`, `NS`, `SRV`, `SOA`
