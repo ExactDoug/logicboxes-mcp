@@ -27,14 +27,14 @@ export function registerCustomerTools(server: McpServer, customerApi: CustomerAp
 
   server.tool(
     'list_customers',
-    'Search and list customers under the reseller account with optional filters',
+    'Search and list customers under the reseller account with optional filters. Returns a paginated table of customers with ID, username, name, company, and status.',
     {
-      pageNo: z.number().optional().describe('Page number (default 1)'),
-      noOfRecords: z.number().optional().describe('Records per page, 10-500 (default 25)'),
-      username: z.string().optional().describe('Filter by email/username'),
-      name: z.string().optional().describe('Filter by name'),
-      company: z.string().optional().describe('Filter by company'),
-      status: z.string().optional().describe('Filter by status'),
+      pageNo: z.number().optional().describe('Page number, starting from 1 (default 1)'),
+      noOfRecords: z.number().optional().describe('Results per page (10-500, default 25)'),
+      username: z.string().optional().describe('Filter by customer email/username (partial match supported)'),
+      name: z.string().optional().describe('Filter by customer name (partial match supported)'),
+      company: z.string().optional().describe('Filter by company name (partial match supported)'),
+      status: z.string().optional().describe('Filter by customer status: Active, InActive, Suspended, etc.'),
     },
     async (args) => {
       try {
@@ -86,10 +86,10 @@ export function registerCustomerTools(server: McpServer, customerApi: CustomerAp
 
   server.tool(
     'get_customer',
-    'Get detailed customer information by customer ID or username (email)',
+    'Get detailed customer information by customer ID or username (email). Returns full contact details, address, phone, and account status. Provide either username or customerId.',
     {
-      username: z.string().optional().describe('Customer email/username'),
-      customerId: z.string().optional().describe('Customer ID'),
+      username: z.string().optional().describe('Customer email/username. Provide either username or customerId.'),
+      customerId: z.string().optional().describe('Customer ID number. Provide either username or customerId.'),
     },
     async (args) => {
       try {

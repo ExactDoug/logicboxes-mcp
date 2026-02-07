@@ -91,13 +91,13 @@ export function registerDnsTools(server: McpServer, dnsApi: DnsApi): void {
 
   server.tool(
     'list_dns_records',
-    'Search DNS records for a domain, filtered by record type and optional host/value',
+    'Search DNS records for a domain, filtered by record type and optional host/value. Returns a paginated table of matching records.',
     {
       domainName: z.string().describe('Fully qualified domain name (e.g. "example.com")'),
       type: z.enum(allRecordTypes).describe('DNS record type to search for'),
-      host: z.string().optional().describe('Filter by hostname / subdomain'),
-      value: z.string().optional().describe('Filter by record value'),
-      pageNo: z.number().optional().describe('Page number (1-based)'),
+      host: z.string().optional().describe('Filter by hostname/subdomain (e.g. "www", "mail")'),
+      value: z.string().optional().describe('Filter by record value (e.g. IP address, hostname)'),
+      pageNo: z.number().optional().describe('Page number, starting from 1 (default 1)'),
     },
     async ({ domainName, type, host, value, pageNo }) => {
       try {
@@ -131,7 +131,7 @@ export function registerDnsTools(server: McpServer, dnsApi: DnsApi): void {
 
   server.tool(
     'list_all_dns_records',
-    'Get ALL DNS records for a domain across every record type (A, AAAA, CNAME, MX, TXT, NS, SRV, SOA)',
+    'Get ALL DNS records for a domain across every record type (A, AAAA, CNAME, MX, TXT, NS, SRV, SOA). Returns records grouped by type. Use this to see the complete DNS zone.',
     {
       domainName: z.string().describe('Fully qualified domain name (e.g. "example.com")'),
     },
@@ -178,7 +178,7 @@ export function registerDnsTools(server: McpServer, dnsApi: DnsApi): void {
 
   server.tool(
     'add_dns_record',
-    'Add a new DNS record to a domain zone (SOA records cannot be added)',
+    'Add a new DNS record to a domain zone. Supports A, AAAA, CNAME, MX, TXT, NS, and SRV records (SOA records cannot be added).',
     {
       domainName: z.string().describe('Fully qualified domain name (e.g. "example.com")'),
       type: z.enum(mutableRecordTypes).describe('DNS record type to add'),
@@ -228,7 +228,7 @@ export function registerDnsTools(server: McpServer, dnsApi: DnsApi): void {
 
   server.tool(
     'update_dns_record',
-    'Update an existing DNS record in a domain zone (SOA records cannot be updated here)',
+    'Update an existing DNS record in a domain zone. Identifies the record by host + currentValue, then replaces the value. SOA records cannot be updated.',
     {
       domainName: z.string().describe('Fully qualified domain name (e.g. "example.com")'),
       type: z.enum(mutableRecordTypes).describe('DNS record type to update'),
@@ -281,7 +281,7 @@ export function registerDnsTools(server: McpServer, dnsApi: DnsApi): void {
 
   server.tool(
     'delete_dns_record',
-    'Delete a DNS record from a domain zone (SOA records cannot be deleted)',
+    'Delete a DNS record from a domain zone. Identifies the record by host + value. SOA records cannot be deleted.',
     {
       domainName: z.string().describe('Fully qualified domain name (e.g. "example.com")'),
       type: z.enum(mutableRecordTypes).describe('DNS record type to delete'),
@@ -325,7 +325,7 @@ export function registerDnsTools(server: McpServer, dnsApi: DnsApi): void {
 
   server.tool(
     'activate_dns',
-    'Activate DNS hosting for a domain order (must be called after purchasing DNS hosting)',
+    'Activate DNS hosting for a domain order. Must be called after purchasing DNS hosting before DNS records can be managed.',
     {
       orderId: z.string().describe('Order ID for the DNS hosting product'),
     },

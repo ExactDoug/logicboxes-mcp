@@ -41,13 +41,13 @@ export function registerDomainTools(server: McpServer, domainApi: DomainApi): vo
 
   server.tool(
     'list_domains',
-    'Search and list domains under the reseller account with optional filters',
+    'Search and list domains under the reseller account with optional filters. Returns a paginated table of domains with order ID, name, status, and expiry date.',
     {
-      pageNo: z.number().optional(),
-      noOfRecords: z.number().min(10).max(500).optional(),
-      customerId: z.string().optional(),
-      domainName: z.string().optional().describe('Filter by domain name'),
-      status: z.string().optional().describe('Active, InActive, Deleted, etc.'),
+      pageNo: z.number().optional().describe('Page number, starting from 1 (default 1)'),
+      noOfRecords: z.number().min(10).max(500).optional().describe('Results per page (10-500, default 25)'),
+      customerId: z.string().optional().describe('Filter by customer ID to show only that customer\'s domains'),
+      domainName: z.string().optional().describe('Filter by domain name (partial match supported)'),
+      status: z.string().optional().describe('Filter by domain status: Active, InActive, Deleted, Archived, etc.'),
     },
     async (args) => {
       try {
@@ -96,10 +96,10 @@ export function registerDomainTools(server: McpServer, domainApi: DomainApi): vo
 
   server.tool(
     'get_domain',
-    'Get detailed domain information by order ID or domain name',
+    'Get detailed domain information by order ID or domain name. Returns registration dates, nameservers, status, and contact details. Provide either orderId or domainName.',
     {
-      orderId: z.string().optional(),
-      domainName: z.string().optional(),
+      orderId: z.string().optional().describe('Domain order ID. Provide either orderId or domainName.'),
+      domainName: z.string().optional().describe('Domain name (e.g. "example.com"). Provide either orderId or domainName.'),
     },
     async (args) => {
       try {
@@ -152,9 +152,9 @@ export function registerDomainTools(server: McpServer, domainApi: DomainApi): vo
 
   server.tool(
     'get_domain_order_id',
-    'Look up the order ID for a domain by its fully qualified domain name',
+    'Look up the order ID for a domain by its fully qualified domain name. Use this when you have a domain name and need the order ID for other API calls.',
     {
-      domainName: z.string(),
+      domainName: z.string().describe('Fully qualified domain name (e.g. "example.com")'),
     },
     async (args) => {
       try {
