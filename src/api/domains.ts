@@ -60,6 +60,13 @@ export class DomainApi {
         domain[cleanKey] = value;
       }
 
+      // The search API returns the domain name under `entity.description`,
+      // which becomes `description` after prefix stripping. Map it to
+      // `domainname` so the result conforms to the Domain interface.
+      if (domain.description && !domain.domainname) {
+        domain.domainname = domain.description;
+      }
+
       domains.push(domain as unknown as Domain);
     }
 
@@ -115,7 +122,7 @@ export class DomainApi {
    * console.log(details.domainname, details.ns1, details.ns2);
    * ```
    */
-  async getDetails(orderId: string, options?: string): Promise<DomainDetails> {
+  async getDetails(orderId: string, options: string = 'All'): Promise<DomainDetails> {
     return this.client.get<DomainDetails>('domains/details.json', {
       'order-id': orderId,
       'options': options,
@@ -137,7 +144,7 @@ export class DomainApi {
    */
   async getDetailsByName(
     domainName: string,
-    options?: string,
+    options: string = 'All',
   ): Promise<DomainDetails> {
     return this.client.get<DomainDetails>('domains/details-by-name.json', {
       'domain-name': domainName,
