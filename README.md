@@ -196,7 +196,7 @@ const domains = await domainApi.search({});
 
 ```bash
 # Backup all DNS records for a domain
-npm run backup:dns                         # defaults to kgotsi.com
+npm run backup:dns                         # uses LOGICBOXES_TEST_DOMAIN from .env
 npx tsx scripts/backup-dns.ts example.com  # specify domain
 ```
 

@@ -67,7 +67,7 @@ const dnsApi = new DnsApi(client);
 // ---------------------------------------------------------------------------
 // Test constants
 // ---------------------------------------------------------------------------
-const TEST_DOMAIN = 'kgotsi.com';
+const TEST_DOMAIN = process.env.LOGICBOXES_TEST_DOMAIN ?? 'example.com';
 const TEST_HOST = '_test-logicboxes-mcp';
 const TEST_VALUE = 'v=test logicboxes-mcp-' + Date.now();
 const UPDATED_VALUE = 'v=test logicboxes-mcp-updated-' + Date.now();

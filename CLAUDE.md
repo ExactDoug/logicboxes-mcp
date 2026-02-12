@@ -37,7 +37,7 @@ MCP server + TypeScript API client for the LogicBoxes domain registration and DN
 See `docs/` directory for comprehensive endpoint documentation.
 
 ## Safety
-- Test domain: kgotsi.com
+- Test domain: Set `LOGICBOXES_TEST_DOMAIN` in `.env`
 - DNS tests use only `_test-logicboxes-mcp` TXT subdomain
 - Never modify existing production records during testing
 - Always backup before any DNS operations

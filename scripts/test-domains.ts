@@ -102,17 +102,18 @@ async function testDomainSearch(): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
-// Test 2: Get Order ID for kgotsi.com
+// Test 2: Get Order ID for test domain
 // ---------------------------------------------------------------------------
+const TEST_DOMAIN = process.env.LOGICBOXES_TEST_DOMAIN ?? 'example.com';
 let savedOrderId = '';
 
 async function testGetOrderId(): Promise<void> {
-  console.error('\n--- Test 2: Get Order ID for kgotsi.com ---');
+  console.error(`\n--- Test 2: Get Order ID for ${TEST_DOMAIN} ---`);
   try {
-    const orderId = await domainApi.getOrderId('kgotsi.com');
+    const orderId = await domainApi.getOrderId(TEST_DOMAIN);
     savedOrderId = orderId;
 
-    console.error(`Order ID for kgotsi.com: ${orderId}`);
+    console.error(`Order ID for ${TEST_DOMAIN}: ${orderId}`);
 
     console.error('\nTest 2: PASS');
     passed++;
@@ -161,7 +162,7 @@ async function testGetDetailsByOrderId(): Promise<void> {
 async function testGetDetailsByName(): Promise<void> {
   console.error('\n--- Test 4: Get Domain Details by Name ---');
   try {
-    const details = await domainApi.getDetailsByName('kgotsi.com');
+    const details = await domainApi.getDetailsByName(TEST_DOMAIN);
 
     console.error(`  Domain name:  ${details.domainname}`);
     console.error(`  Status:       ${details.currentstatus}`);

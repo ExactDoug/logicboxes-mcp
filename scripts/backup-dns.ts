@@ -36,7 +36,7 @@ const projectRoot = path.resolve(__dirname, '..');
 // ---------------------------------------------------------------------------
 dotenv.config({ path: path.resolve(projectRoot, '.env') });
 
-const domainName = process.argv[2] ?? 'kgotsi.com';
+const domainName = process.argv[2] ?? process.env.LOGICBOXES_TEST_DOMAIN ?? 'example.com';
 
 const authUserId = process.env.LOGICBOXES_AUTH_USERID;
 const apiKey = process.env.LOGICBOXES_API_KEY;
