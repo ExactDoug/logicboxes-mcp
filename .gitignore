@@ -4,3 +4,6 @@ dist/
 config.yaml
 mcp-session.jsonl
 *.js.map
+
+# DNS record backups (contain domain configuration details)
+backups/
